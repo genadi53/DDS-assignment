@@ -13,6 +13,10 @@ const CartPart = connection.define("CartPart", {
     primaryKey: true,
     allowNull: false,
   },
+  name: {
+    type: Sequelize.STRING(25),
+    allowNull: false,
+  },
   brand: {
     type: Sequelize.STRING(25),
     allowNull: false,
