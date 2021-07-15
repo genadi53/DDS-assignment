@@ -1,25 +1,16 @@
 const express = require("express");
 const router = express.Router();
+const CartPartsController = require("../contollers/parts-controller");
 
-router.get("/", (req, res) => {
-  res.send("/all parts");
-});
+router.get("/", CartPartsController.getAllParts);
 
-router.post("/", (req, res) => {
-  res.send("/add new part");
-});
+router.post("/", CartPartsController.createNewPart);
 
-router.get("/:id", (req, res) => {
-  res.send("/ show part:id");
-});
+router.get("/:id", CartPartsController.findPart);
 
 // router.patch;
-router.put("/:id", (req, res) => {
-  res.send("/ update part:id");
-});
+router.put("/:id", CartPartsController.updatePart);
 
-router.delete("/:id", (req, res) => {
-  res.send("/ delete part:id");
-});
+router.delete("/:id", CartPartsController.deletePart);
 
 module.exports = router;

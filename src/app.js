@@ -14,6 +14,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
 
+// const seed = require("../src/seeds/seeds");
+// seed();
+
 app.use("/api/", userRoutes);
 app.use("/api/parts", partsRoutes);
 

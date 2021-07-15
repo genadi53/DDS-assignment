@@ -1,9 +1,14 @@
 const express = require("express");
 const router = express.Router();
+const userController = require("../contollers/user-controlle");
 
-router.post("/signup", (req, res) => {
-  res.send("/signup");
+router.get("/homepage", (req, res) => {
+  res.send("homepage");
 });
+
+router.post("/signup", userController.registerUser);
+
+router.get("/all", userController.getAll);
 
 router.post("/login", (req, res) => {
   res.send("/login");
