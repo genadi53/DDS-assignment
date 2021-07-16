@@ -15,20 +15,20 @@ module.exports = {
         allowNull: false,
       },
       firstName: {
-        type: Sequelize.STRING(20),
+        type: Sequelize.STRING,
         allowNull: false,
       },
       lastName: {
-        type: Sequelize.STRING(20),
+        type: Sequelize.STRING,
         allowNull: false,
       },
       email: {
-        type: Sequelize.STRING(40),
+        type: Sequelize.STRING,
         allowNull: false,
         unique: true,
       },
       password: {
-        type: Sequelize.STRING(25),
+        type: Sequelize.STRING,
         allowNull: false,
       },
       isAdmin: {
