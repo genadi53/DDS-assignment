@@ -10,9 +10,7 @@ router.post("/signup", userController.registerUser);
 
 router.get("/all", userController.getAll);
 
-router.post("/login", (req, res) => {
-  res.send("/login");
-});
+router.post("/login", userController.loginUser);
 
 router.get("/logout", (req, res) => {
   res.send("/logout");

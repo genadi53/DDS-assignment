@@ -3,9 +3,10 @@ const { v4: uuidv4 } = require("uuid");
 
 module.exports.getAllParts = async (req, res) => {
   const parts = await CartPart.findAll();
-  console.log(parts.every((part) => part instanceof CartPart)); // true
-  console.log("All parts:", JSON.stringify(parts, null, 2));
-  res.send(parts);
+  //console.log(parts.every((part) => part instanceof CartPart)); // true
+  //console.log("All parts:", JSON.stringify(parts, null, 2));
+  //console.log(parts);
+  res.json(parts);
 };
 
 module.exports.createNewPart = async (req, res) => {

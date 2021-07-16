@@ -8,7 +8,6 @@ router.post("/", CartPartsController.createNewPart);
 
 router.get("/:id", CartPartsController.findPart);
 
-// router.patch;
 router.put("/:id", CartPartsController.updatePart);
 
 router.delete("/:id", CartPartsController.deletePart);

@@ -62,7 +62,7 @@ const alphabet = [
 ];
 
 const rand = (arr) => arr[Math.floor(Math.random() * arr.length)];
-const randNum = (num) => Math.round(Math.random() * num);
+const randNum = (num) => Math.round(Math.random() * num) + 1;
 
 const seedTheDB = async () => {
   await CartPart.destroy({
@@ -80,7 +80,7 @@ const seedTheDB = async () => {
       )}`,
       category: `${rand(CATEGORIES)}`,
       quantity: randNum(i + 3),
-      price: randNum(i + 2),
+      price: randNum(i + 2) * 2.4,
     }).catch((err) => {
       console.log("ERROR with the parts");
       console.log(err);
