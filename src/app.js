@@ -22,6 +22,13 @@ app.use(
 
 app.use("/api/", userRoutes);
 app.use("/api/parts", partsRoutes);
+app.use("/api/checkout", () => {
+  res.send("Checkout route");
+});
+
+app.use("*", (req, res) => {
+  res.status(404).json({ error: "Page not found!" });
+});
 
 app.listen(port, (error) => {
   if (error) throw error;
