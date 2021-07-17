@@ -1,18 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "./App.css";
-
+import Header from "../src/components/header/header.component";
 const App = () => {
-  const [responce, setResponce] = useState(null);
-
-  useEffect(() => {
-    fetch("/api")
-      .then((res) => res.json())
-      .then((data) => setResponce(data.message));
-  }, []);
-
   return (
     <div className="App">
-      <p>{responce}</p>
+      <Header currentUser={false} />
     </div>
   );
 };
