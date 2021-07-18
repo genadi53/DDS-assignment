@@ -9,6 +9,12 @@ module.exports = {
      * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
      */
     await queryInterface.createTable("transaction_parts", {
+      id: {
+        type: Sequelize.INTEGER(11),
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+      },
       transactionId: {
         type: Sequelize.CHAR(36),
         primaryKey: true,
@@ -22,6 +28,8 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
+      createdAt: Sequelize.DATE,
+      updatedAt: Sequelize.DATE,
     });
   },
 

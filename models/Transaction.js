@@ -17,14 +17,14 @@ const Transaction = connection.define("Transaction", {
     type: Sequelize.UUIDV4,
     allowNull: false,
   },
-  partId: {
-    type: Sequelize.UUIDV4,
-    allowNull: false,
-  },
-  partQuantity: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
-  },
+  // partId: {
+  //   type: Sequelize.UUIDV4,
+  //   allowNull: false,
+  // },
+  // partQuantity: {
+  //   type: Sequelize.INTEGER,
+  //   allowNull: false,
+  // },
   addressForShipping: {
     type: Sequelize.STRING,
     allowNull: false,

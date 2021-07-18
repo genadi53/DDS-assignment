@@ -1,7 +1,13 @@
 const Sequelize = require("sequelize");
 const connection = require("../src/database/connection");
 
-const TransactionParts = connection.define("TransactionParts", {
+const TransactionParts = connection.define("Transaction_Part", {
+  id: {
+    type: Sequelize.INTEGER(11),
+    allowNull: false,
+    autoIncrement: true,
+    primaryKey: true,
+  },
   transactionId: {
     type: Sequelize.UUIDV4,
     primaryKey: true,
@@ -17,4 +23,4 @@ const TransactionParts = connection.define("TransactionParts", {
   },
 });
 
-module.exports = Transaction;
+module.exports = TransactionParts;
