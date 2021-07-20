@@ -1,5 +1,4 @@
 const express = require("express");
-const passport = require("passport");
 const router = express.Router();
 const userController = require("../contollers/user-controller");
 
@@ -11,25 +10,12 @@ router.post("/signup", userController.registerUser);
 
 router.get("/all", userController.getAll);
 
+router.get("/user", (req, res) => {
+  res.send(req.user);
+});
+
 router.post("/login", userController.loginUser);
 
-// router.post(
-//   "/login",
-//   passport.authenticate("local", {
-//     failureFlash: true,
-//     failureRedirect: "/login",
-//   }),
-//   usersController.loginUser
-// );
-// module.exports.loginUser = async (req, res) => {
-//   req.flash('success', 'Welcome back!');
-//   const redirectUrl = req.session.returnTo || '/campgrounds';
-//   delete req.session.returnTo;
-//   res.redirect(redirectUrl);
-// }
-
-router.get("/logout", (req, res) => {
-  res.send("/logout");
-});
+router.get("/logout", userController.logoutUser);
 
 module.exports = router;
