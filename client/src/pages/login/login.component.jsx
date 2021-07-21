@@ -3,13 +3,11 @@ import axios from "axios";
 import FormInput from "../../components/form-input/form-input.component";
 
 const LogInComponent = () => {
-  const [userCredentials, setUserCredentials] = useState({
-    email: "",
-    password: "",
-  });
+  const initialState = { email: "", password: "" };
+  const [userCredentials, setUserCredentials] = useState(initialState);
 
   const login = (email, password) => {
-    console.log(email, password);
+    //console.log(email, password);
     axios({
       method: "post",
       data: {
@@ -20,7 +18,7 @@ const LogInComponent = () => {
       url: "http://localhost:5000/api/login",
     })
       .then((res) => {
-        console.log(res);
+        //console.log(res);
         alert(res.data);
       })
       .catch((err) => console.log(err));

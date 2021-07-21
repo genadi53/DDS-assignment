@@ -16,7 +16,7 @@ const HomePage = () => {
   }, []);
 
   return (
-    <div>
+    <div className="row">
       {parts.map((part) => (
         <PartComponent key={part.uuid} part={part} />
       ))}

@@ -5,6 +5,7 @@ import SignUpPage from "../../pages/signup/signup.component";
 import LogInPage from "../../pages/login/login.component";
 import UpdateForm from "../../pages/part-forms/update-form.component";
 import CreateForm from "../../pages/part-forms/create-form.componemnt";
+import CheckoutPage from "../../pages/checkout/checkout.component";
 
 const HeaderComponent = () => {
   return (
@@ -37,16 +38,34 @@ const HeaderComponent = () => {
             </ul>
           ) : (
             <ul className="navbar-nav me-auto">
-              <li className="nav-item">
-                <Link to={"/create"} className="nav-link">
-                  ADD PART
-                </Link>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" style={{ cursor: "pointer" }}>
-                  LOGOUT
-                </a>
-              </li>
+              {true ? (
+                <ul className="navbar-nav">
+                  <li className="nav-item">
+                    <Link to={"/create"} className="nav-link">
+                      ADD PART
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <a
+                      className="nav-link"
+                      style={{ cursor: "pointer" }}
+                      href="/#"
+                    >
+                      LOGOUT
+                    </a>
+                  </li>
+                </ul>
+              ) : (
+                <li className="nav-item">
+                  <a
+                    className="nav-link"
+                    style={{ cursor: "pointer" }}
+                    href="/#"
+                  >
+                    LOGOUT
+                  </a>
+                </li>
+              )}
             </ul>
           )}
 
@@ -66,7 +85,8 @@ const HeaderComponent = () => {
           <Route exact path="/signup" component={SignUpPage} />
           <Route exact path="/login" component={LogInPage} />
           <Route path="/:uuid/update" component={UpdateForm} />
-          <Route path="/create" component={CreateForm} />
+          <Route exact path="/create" component={CreateForm} />
+          <Route exact path="/checkout" component={CheckoutPage} />
           <Route exact path="/logout" />
         </Switch>
       </div>
