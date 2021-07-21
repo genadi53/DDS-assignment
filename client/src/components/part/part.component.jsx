@@ -48,15 +48,20 @@ const PartComponent = ({ part }) => {
               >
                 DELETE
               </button>
+              <div className="row card-body">
+                <button className="btn btn-primary col-lg-6 mx-auto">
+                  ADD TO CART
+                </button>
+              </div>
             </div>
           ) : (
             <div className="row card-body">
-              {true ? (
+              {false ? (
                 <button className="btn btn-primary col-lg-6 mx-auto">
                   ADD TO CART
                 </button>
               ) : (
-                <div></div>
+                <div>Log-in to purchase this item!</div>
               )}
             </div>
           )}

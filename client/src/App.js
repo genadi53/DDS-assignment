@@ -2,8 +2,8 @@ import React, { useReducer, useContext, useState } from "react";
 import "./App.css";
 import Header from "../src/components/header/header.component";
 import axios from "axios";
-import userReducer, { initialState } from "./redusers/user.reduser";
-import UserActions from "./redusers/user.actions";
+import userReducer, { initialState } from "./reducers/user/user.reducer";
+import UserActions from "./reducers/user/user.actions";
 import userContext from "./context/user.context";
 import cartContext from "./context/cart.context";
 
