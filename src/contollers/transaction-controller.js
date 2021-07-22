@@ -10,6 +10,7 @@ const { v4: uuidv4 } = require("uuid");
 module.exports.makeNewTransaction = async (req, res) => {
   const { email, parts, address, totalPrice } = req.body;
 
+  console.log(parts);
   User.hasMany(Transaction, { as: "Transaction", foreignKey: "userId" });
   Transaction.belongsTo(User, { as: "User", foreignKey: "userId" });
 
@@ -37,8 +38,9 @@ module.exports.makeNewTransaction = async (req, res) => {
     },
   }).catch((err) => {
     console.log(err);
+    res.status(500).json({ error: err });
   });
-  // console.log(user);
+  //console.log(user);
   // console.log(user[0].dataValues.uuid);
 
   const fetchedParts = [];
@@ -47,6 +49,7 @@ module.exports.makeNewTransaction = async (req, res) => {
     let id = part.uuid;
     const p = await Part.findAll({ where: { uuid: id } }).catch((err) => {
       console.log(err);
+      res.status(500).json({ error: err });
     });
     //console.log(p);
     fetchedParts.push(p);
@@ -60,21 +63,24 @@ module.exports.makeNewTransaction = async (req, res) => {
     totalPrice: totalPrice,
   }).catch((err) => {
     console.log(err);
+    res.status(500).json({ error: err });
   });
-  // console.log(trans);
+  //console.log(transaction.dataValues);
 
   for (let i = 0; i < parts.length; i++) {
     //console.log(result[i][0].dataValues.uuid);
     let p = await TransactionParts.create({
-      transactionId: transaction[0].dataValues.uuid,
-      partId: parts[i][0].dataValues.uuid,
-      partQuantity: parts[i][0].dataValues.quantity,
+      transactionId: transaction.dataValues.uuid,
+      partId: parts[i].uuid,
+      partQuantity: parts[i].quantity,
     }).catch((err) => {
       console.log(err);
+      res.status(500).json({ error: err });
     });
   }
 
-  this.sendEmail(user[0].dataValues.email, transaction[0].dataValues);
+  this.sendEmail(user[0].dataValues.email, transaction.dataValues);
+  res.status(200).send("Transaction completed! Email with details was send!");
 };
 
 module.exports.sendEmail = async (email, transactionData) => {
@@ -111,6 +117,6 @@ module.exports.sendEmail = async (email, transactionData) => {
   await transport.sendMail(mainOptions, function (err, success) {
     if (err) console.log(err);
     else console.log("*** New Email Was Send! ***");
-    res.send("Email was send");
+    //res.send("Email was send");
   });
 };
