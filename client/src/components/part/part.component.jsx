@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import axios from "axios";
 import { Link, useHistory } from "react-router-dom";
+import CartActions from "../../reducers/cart/cart.actions";
+import cartContext from "../../context/cart.context";
 
 const PartComponent = ({ part }) => {
   const { name, brand, model, category, price } = part;
+  const { cartState, dispatch } = useContext(cartContext);
   let history = useHistory();
 
   const handleDelete = () => {
@@ -20,6 +23,28 @@ const PartComponent = ({ part }) => {
         history.push("/");
       })
       .catch((err) => console.log(err));
+  };
+
+  const addToCart = () => {
+    //console.log(part.quantity);
+    const item = cartState.cartItems.find((item) => item.uuid === part.uuid);
+    let partToAdd = null;
+    //console.log(item);
+    if (!item) {
+      partToAdd = { uuid: part.uuid, name: part.name, quantity: 1, price };
+      dispatch({ type: CartActions.ADD_ITEM, payload: partToAdd, price });
+    } else if (item && part.quantity >= item.quantity + 1) {
+      partToAdd = {
+        uuid: part.uuid,
+        name: part.name,
+        quantity: item.quantity + 1,
+        price,
+      };
+      dispatch({ type: CartActions.ADD_ITEM, payload: partToAdd });
+    } else {
+      alert("OUT OF STOCK!");
+    }
+    //console.log(cartState);
   };
 
   return (
@@ -51,7 +76,10 @@ const PartComponent = ({ part }) => {
                 DELETE
               </button>
               <div className="row card-body">
-                <button className="btn btn-primary col-lg-6 mx-auto">
+                <button
+                  className="btn btn-primary col-lg-6 mx-auto"
+                  onClick={addToCart}
+                >
                   ADD TO CART
                 </button>
               </div>
@@ -59,7 +87,10 @@ const PartComponent = ({ part }) => {
           ) : (
             <div className="row card-body">
               {false ? (
-                <button className="btn btn-primary col-lg-6 mx-auto">
+                <button
+                  className="btn btn-primary col-lg-6 mx-auto"
+                  onClick={addToCart}
+                >
                   ADD TO CART
                 </button>
               ) : (

@@ -41,7 +41,7 @@ const LogInComponent = () => {
   const initialState = { email: "", password: "" };
   const [userCredentials, setUserCredentials] = useState(initialState);
 
-  const { userState, dispatch } = useContext(userContext);
+  const { dispatch } = useContext(userContext);
   const handleSubmit = async (event) => {
     event.preventDefault();
     const { email, password } = userCredentials;
