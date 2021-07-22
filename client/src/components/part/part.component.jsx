@@ -33,6 +33,8 @@ const PartComponent = ({ part }) => {
             <br />
             <strong>Category: </strong>
             {category}
+            <br />
+            <strong>Price: </strong>${price}
           </p>
           {true ? (
             <div className="row card-link">

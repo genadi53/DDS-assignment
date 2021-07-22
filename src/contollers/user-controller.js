@@ -50,7 +50,7 @@ module.exports.loginUser = async (req, res, next) => {
         return next(err);
       }
       //return res.json({ status: "ok" });
-      res.status(200).send("Successfully loged in!");
+      res.status(200).json({ status: "Successfully loged in!", user });
     });
   })(req, res, next);
   // const { email, password } = req.body;
@@ -77,6 +77,8 @@ module.exports.loginUser = async (req, res, next) => {
 };
 
 module.exports.logoutUser = async (req, res) => {
+  console.log("before logging out");
   req.logout();
-  res.status(200).send("Successfully loged out!");
+  console.log("before sending");
+  res.status(200).send("Successfully logged out!");
 };

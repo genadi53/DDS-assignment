@@ -1,13 +1,33 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link, Switch, Route } from "react-router-dom";
+import axios from "axios";
 import HomePage from "../../pages/homepage/homepage.component";
 import SignUpPage from "../../pages/signup/signup.component";
 import LogInPage from "../../pages/login/login.component";
 import UpdateForm from "../../pages/part-forms/update-form.component";
 import CreateForm from "../../pages/part-forms/create-form.componemnt";
 import CheckoutPage from "../../pages/checkout/checkout.component";
+import userContext from "../../context/user.context";
+import UserActions from "../../reducers/user/user.actions";
 
 const HeaderComponent = () => {
+  const { userState, dispatch } = useContext(userContext);
+
+  const handleLogout = async (e) => {
+    e.preventDefault();
+    let response = await axios({
+      method: "get",
+      url: "http://localhost:5000/api/logout",
+      withCredentials: true,
+    }).catch((err) => {
+      alert("Error");
+      console.log(err);
+    });
+    console.log(response);
+    alert(response.data);
+    dispatch({ type: UserActions.SIGN_OUT });
+  };
+
   return (
     <div className="header">
       <div className="container-fluid">
@@ -23,7 +43,7 @@ const HeaderComponent = () => {
             </li>
           </ul>
 
-          {true ? (
+          {!userState.currentUser ? (
             <ul className="navbar-nav me-auto">
               <li className="nav-item">
                 <Link to={"/signup"} className="nav-link">
@@ -38,7 +58,7 @@ const HeaderComponent = () => {
             </ul>
           ) : (
             <ul className="navbar-nav me-auto">
-              {true ? (
+              {userState.currentUser && userState.currentUser.isAdmin ? (
                 <ul className="navbar-nav">
                   <li className="nav-item">
                     <Link to={"/create"} className="nav-link">
@@ -61,6 +81,7 @@ const HeaderComponent = () => {
                     className="nav-link"
                     style={{ cursor: "pointer" }}
                     href="/#"
+                    onClick={(e) => handleLogout(e)}
                   >
                     LOGOUT
                   </a>
@@ -79,6 +100,9 @@ const HeaderComponent = () => {
         </nav>
       </div>
 
+      <div>
+        {userState.currentUser ? JSON.stringify(userState) : "No user yet"}
+      </div>
       <div className="container mt-3">
         <Switch>
           <Route exact path="/" component={HomePage} />
