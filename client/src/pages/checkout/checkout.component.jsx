@@ -35,13 +35,52 @@ const CheckoutPage = () => {
       alert("Error");
       console.log(err);
     });
+    console.log(res);
+    alert(res.data);
+  };
+
+  const addItem = (part) => {
+    let partToAdd = cartState.cartItems.find((item) => item.uuid === part.uuid);
+    if (!partToAdd) {
+      partToAdd = {
+        uuid: part.uuid,
+        name: part.name,
+        quantity: 1,
+        price: part.price,
+      };
+      dispatch({
+        type: CartActions.ADD_ITEM,
+        payload: partToAdd,
+      });
+    } else {
+      partToAdd = {
+        ...partToAdd,
+        quantity: partToAdd.quantity + 1,
+      };
+      dispatch({ type: CartActions.ADD_ITEM, payload: partToAdd });
+    }
+  };
+
+  const removeItem = (part) => {
+    let partToRemove = cartState.cartItems.find(
+      (item) => item.uuid === part.uuid
+    );
+    if (!partToRemove) {
+      alert("NO ITEM TO REMOVE!");
+    } else {
+      partToRemove = {
+        ...partToRemove,
+        quantity: partToRemove.quantity - 1,
+      };
+      dispatch({ type: CartActions.REMOVE_ITEM, payload: partToRemove });
+    }
   };
 
   return (
     <div>
       {cartState.cartItems.length !== 0 ? (
         <div>
-          <table class="table">
+          <table className="table">
             <thead>
               <tr>
                 <th scope="col">#</th>
@@ -57,7 +96,31 @@ const CheckoutPage = () => {
                   <tr key={p.uuid}>
                     <th scope="row">{idx}</th>
                     <td>{p.name}</td>
-                    <td>{p.quantity}</td>
+                    <td>
+                      <svg
+                        onClick={() => removeItem(p)}
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        className="bi bi-caret-left-fill"
+                        viewBox="0 0 16 16"
+                      >
+                        <path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z" />
+                      </svg>
+                      {p.quantity}
+                      <svg
+                        onClick={() => addItem(p)}
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        className="bi bi-caret-right-fill"
+                        viewBox="0 0 16 16"
+                      >
+                        <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
+                      </svg>
+                    </td>
                     <td>${p.price}</td>
                   </tr>
                 );

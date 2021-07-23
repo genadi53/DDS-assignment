@@ -5,12 +5,12 @@ import CartActions from "../../reducers/cart/cart.actions";
 import cartContext from "../../context/cart.context";
 
 const PartComponent = ({ part }) => {
-  const { name, brand, model, category, price } = part;
+  const { name, brand, model, category, price, quantity } = part;
   const { cartState, dispatch } = useContext(cartContext);
   let history = useHistory();
 
   const handleDelete = () => {
-    console.log("dele");
+    //console.log("dele");
     axios({
       method: "delete",
       withCredentials: true,
@@ -33,7 +33,7 @@ const PartComponent = ({ part }) => {
     if (!item) {
       partToAdd = { uuid: part.uuid, name: part.name, quantity: 1, price };
       dispatch({ type: CartActions.ADD_ITEM, payload: partToAdd, price });
-    } else if (item && part.quantity >= item.quantity + 1) {
+    } else {
       partToAdd = {
         uuid: part.uuid,
         name: part.name,
@@ -41,8 +41,6 @@ const PartComponent = ({ part }) => {
         price,
       };
       dispatch({ type: CartActions.ADD_ITEM, payload: partToAdd });
-    } else {
-      alert("OUT OF STOCK!");
     }
     //console.log(cartState);
   };
@@ -76,23 +74,35 @@ const PartComponent = ({ part }) => {
                 DELETE
               </button>
               <div className="row card-body">
-                <button
-                  className="btn btn-primary col-lg-6 mx-auto"
-                  onClick={addToCart}
-                >
-                  ADD TO CART
-                </button>
+                <div>
+                  {quantity === 0 ? (
+                    <div>OUT OF STOCK</div>
+                  ) : (
+                    <button
+                      className="btn btn-primary col-lg-6 mx-auto"
+                      onClick={addToCart}
+                    >
+                      ADD TO CART
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
           ) : (
             <div className="row card-body">
               {false ? (
-                <button
-                  className="btn btn-primary col-lg-6 mx-auto"
-                  onClick={addToCart}
-                >
-                  ADD TO CART
-                </button>
+                <div>
+                  {quantity === 0 ? (
+                    <div>OUT OF STOCK</div>
+                  ) : (
+                    <button
+                      className="btn btn-primary col-lg-6 mx-auto"
+                      onClick={addToCart}
+                    >
+                      ADD TO CART
+                    </button>
+                  )}
+                </div>
               ) : (
                 <div>Log-in to purchase this item!</div>
               )}
@@ -102,31 +112,6 @@ const PartComponent = ({ part }) => {
       </div>
     </div>
   );
-  // <div
-  //   className="part"
-  //   style={{
-  //     display: "block",
-  //     marginBottom: "20px",
-  //     border: "2px solid black",
-  //   }}
-  // >
-  //   <div className="part-data">
-  //     <div className="name">Name: {name}</div>
-  //     <div className="brand">
-  //       Brand: {brand} - {model}
-  //     </div>
-  //     <div className="category">Category: {category}</div>
-  //     <div className="price">Price: ${price}</div>
-  //   </div>
-  //   <button>ADD TO CART</button>
-  //   <div>
-  //     <button>
-  //       <Link to={`/${part.uuid}/update`}>UPDATE</Link>
-  //     </button>
-  //     <button onClick={handleDelete}>DELETE</button>
-  //   </div>
-  // </div>
-  //);
 };
 
 export default PartComponent;
