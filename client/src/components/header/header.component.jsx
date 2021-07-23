@@ -32,9 +32,13 @@ const HeaderComponent = () => {
     <div className="header">
       <div className="container-fluid">
         <nav className="navbar navbar-expand navbar-dark bg-dark">
-          <a href="/" className="navbar-brand" style={{ marginLeft: "10px" }}>
+          <Link
+            to={"/"}
+            className="navbar-brand"
+            style={{ marginLeft: "10px" }}
+          >
             LOGO
-          </a>
+          </Link>
           <ul className="navbar-nav">
             <li className="nav-item">
               <Link to={"/"} className="nav-link">

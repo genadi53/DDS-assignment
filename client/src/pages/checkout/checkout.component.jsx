@@ -9,6 +9,14 @@ const CheckoutPage = () => {
   const { userState } = useContext(userContext);
   let totalPrice = 0;
 
+  const calculateTotalPrice = (parts) => {
+    let total = 0;
+    parts.forEach((p) => {
+      total = total + p.price * p.quantity;
+    });
+    return total;
+  };
+
   const handleCheckout = async () => {
     console.log(userState.currentUser.email);
     console.log(cartState.cartItems);
@@ -30,41 +38,43 @@ const CheckoutPage = () => {
   };
 
   return (
-    <div className="checkout-page">
-      <div className="checkout-header">
-        <div className="header-block">
-          <span>Product</span>
+    <div>
+      {cartState.cartItems.length !== 0 ? (
+        <div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Part</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              {cartState.cartItems.map((p, idx) => {
+                totalPrice = totalPrice + p.price * p.quantity;
+                return (
+                  <tr key={p.uuid}>
+                    <th scope="row">{idx}</th>
+                    <td>{p.name}</td>
+                    <td>{p.quantity}</td>
+                    <td>${p.price}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+          <div>TOTAL PRICE: ${totalPrice}</div>
+          <button
+            onClick={handleCheckout}
+            className="btn btn-primary col-lg-5 mx-auto"
+          >
+            PAY NOW
+          </button>
         </div>
-        <div className="header-block">
-          <span>Quantity</span>
-        </div>
-        <div className="header-block">
-          <span>Price</span>
-        </div>
-      </div>
-
-      {cartState.cartItems.map((item) => {
-        totalPrice = totalPrice + item.price * item.quantity;
-        console.log(item.name);
-        return (
-          <div className="checkout-item">
-            <span className="name">{item.name}</span>
-
-            <span className="quantity">
-              <div className="arrow">&#10094;</div>
-              <span className="value">{item.quantity}</span>
-              <div className="arrow">&#10095;</div>
-            </span>
-
-            <span className="price">{item.price}</span>
-
-            <div className="remove-button">&#10005;</div>
-          </div>
-        );
-      })}
-
-      <div className="total">TOTAL: ${totalPrice}</div>
-      <button onClick={handleCheckout}>Pay now</button>
+      ) : (
+        <div>ADD ITEMS TO THE CART</div>
+      )}
     </div>
   );
 };
