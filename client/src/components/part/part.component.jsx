@@ -3,10 +3,13 @@ import axios from "axios";
 import { Link, useHistory } from "react-router-dom";
 import CartActions from "../../reducers/cart/cart.actions";
 import cartContext from "../../context/cart.context";
+import userContext from "../../context/user.context";
 
 const PartComponent = ({ part }) => {
   const { name, brand, model, category, price, quantity } = part;
   const { cartState, dispatch } = useContext(cartContext);
+  const { userState } = useContext(userContext);
+
   let history = useHistory();
 
   const handleDelete = () => {
@@ -59,7 +62,7 @@ const PartComponent = ({ part }) => {
             <br />
             <strong>Price: </strong>${price}
           </p>
-          {true ? (
+          {userState.currentUser && userState.currentUser.isAdmin ? (
             <div className="row card-link">
               <Link
                 to={`/${part.uuid}/update`}
@@ -90,7 +93,7 @@ const PartComponent = ({ part }) => {
             </div>
           ) : (
             <div className="row card-body">
-              {false ? (
+              {userState.currentUser ? (
                 <div>
                   {quantity === 0 ? (
                     <div>OUT OF STOCK</div>
