@@ -35,8 +35,10 @@ const CheckoutPage = () => {
       alert("Error");
       console.log(err);
     });
-    console.log(res);
-    alert(res.data);
+    if (res) {
+      console.log(res);
+      alert(res.data);
+    }
   };
 
   const addItem = (part) => {
