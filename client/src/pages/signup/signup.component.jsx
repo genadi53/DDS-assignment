@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router";
 import axios from "axios";
 import FormInput from "../../components/form-input/form-input.component";
 
@@ -10,6 +11,7 @@ const SignUpComponent = () => {
     password: "",
     confirmPassword: "",
   });
+  const history = useHistory();
 
   const signup = (userData) => {
     axios({
@@ -41,7 +43,7 @@ const SignUpComponent = () => {
     }
 
     signup(userCredentials);
-
+    history.push("/");
     // SignUpComponentStart({ email, password, displayName });
   };
 

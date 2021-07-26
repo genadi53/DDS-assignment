@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import { useHistory } from "react-router";
 import axios from "axios";
 import FormInput from "../../components/form-input/form-input.component";
 import userContext from "../../context/user.context";
@@ -40,6 +41,7 @@ const login = async (email, password) => {
 const LogInComponent = () => {
   const initialState = { email: "", password: "" };
   const [userCredentials, setUserCredentials] = useState(initialState);
+  const history = useHistory();
 
   const { dispatch } = useContext(userContext);
   const handleSubmit = async (event) => {
@@ -49,6 +51,7 @@ const LogInComponent = () => {
     // const user = await getUser();
     // console.log(user);
     dispatch({ type: UserActions.SIGN_IN, payload: loggedUser });
+    history.push("/");
     // console.log(userState);
   };
 

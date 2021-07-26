@@ -1,4 +1,6 @@
 import React, { useContext } from "react";
+import { useHistory } from "react-router-dom";
+
 import axios from "axios";
 import cartContext from "../../context/cart.context";
 import CartActions from "../../reducers/cart/cart.actions";
@@ -7,6 +9,7 @@ import userContext from "../../context/user.context";
 const CheckoutPage = () => {
   const { cartState, dispatch } = useContext(cartContext);
   const { userState } = useContext(userContext);
+  const history = useHistory();
   let totalPrice = 0;
 
   const calculateTotalPrice = (parts) => {
@@ -18,8 +21,8 @@ const CheckoutPage = () => {
   };
 
   const handleCheckout = async () => {
-    console.log(userState.currentUser.email);
-    console.log(cartState.cartItems);
+    //console.log(userState.currentUser.email);
+    //console.log(cartState.cartItems);
 
     const res = await axios({
       method: "post",
@@ -38,6 +41,10 @@ const CheckoutPage = () => {
     if (res) {
       console.log(res);
       alert(res.data);
+      dispatch({
+        type: CartActions.CLEAR_CART,
+      });
+      history.push("/");
     }
   };
 

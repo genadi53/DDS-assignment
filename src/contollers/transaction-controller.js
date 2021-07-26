@@ -2,11 +2,27 @@ const nodemailer = require("nodemailer");
 const Transaction = require("../../models/Transaction");
 const TransactionParts = require("../../models/Transaction_Parts");
 const User = require("../../models/User");
-const Part = require("../../models/CartPart");
 const CartPart = require("../../models/CartPart");
 const sequelize = require("sequelize");
 const { v4: uuidv4 } = require("uuid");
 // const Transactions = require("../../models/Transaction");
+
+User.hasMany(Transaction, {
+  as: "User_Transactions",
+  foreignKey: "userId",
+});
+
+Transaction.belongsTo(User, { as: "User", foreignKey: "userId" });
+
+Transaction.hasMany(TransactionParts, {
+  as: "TransactionParts",
+  foreignKey: "transactionId",
+});
+
+TransactionParts.belongsTo(Transaction, {
+  as: "Transaction",
+  foreignKey: "transactionId",
+});
 
 module.exports.makeNewTransaction = async (req, res) => {
   const { email, parts, address = "Sofia ..." } = req.body;
@@ -14,27 +30,6 @@ module.exports.makeNewTransaction = async (req, res) => {
   let message = "Transaction details\nProduct\t Quantity\t Price\n";
   //console.log(parts);
   try {
-    User.hasMany(Transaction, { as: "User_Transaction", foreignKey: "userId" });
-    Transaction.belongsTo(User, { as: "User", foreignKey: "userId" });
-
-    Transaction.hasOne(TransactionParts, {
-      as: "TransactionParts",
-      foreignKey: "transactionId",
-    });
-    TransactionParts.belongsTo(Transaction, {
-      as: "Transaction",
-      foreignKey: "transactionId",
-    });
-
-    // TransactionParts.belongsToMany(Part, {
-    //   as: "CartPart",
-    //   foreignKey: "partId",
-    // });
-    // Part.belongsToMany(TransactionParts, {
-    //   as: "TransactionParts",
-    //   foreignKey: "partId",
-    // });
-
     const user = await findUser(email);
     //console.log(user);
     // console.log(user[0].dataValues.uuid);
@@ -44,7 +39,7 @@ module.exports.makeNewTransaction = async (req, res) => {
     for (const part of parts) {
       //console.log(part.partId);
       let id = part.uuid;
-      const p = await Part.findAll({ where: { uuid: id } }).catch((err) => {
+      const p = await CartPart.findAll({ where: { uuid: id } }).catch((err) => {
         console.log(err);
         res.status(500).json({ error: err });
       });
@@ -59,7 +54,7 @@ module.exports.makeNewTransaction = async (req, res) => {
         //console.log(totalPrice);
         totalPrice =
           Math.round((totalPrice - part.price * part.quantity) * 100) / 100;
-        console.log(totalPrice);
+        //console.log(totalPrice);
       }
       //console.log(p)
     }
@@ -69,14 +64,10 @@ module.exports.makeNewTransaction = async (req, res) => {
 
     for (let i = 0; i < selledParts.length; i++) {
       //console.log(result[i][0].dataValues.uuid);
-      let p = await TransactionParts.create({
-        transactionId: transaction.dataValues.uuid,
-        partId: selledParts[i].uuid,
-        partQuantity: selledParts[i].quantity,
-      }).catch((err) => {
-        console.log(err);
-        res.status(500).json({ error: err });
-      });
+      let p = await addPartsForTransaction(
+        transaction.dataValues.uuid,
+        selledParts[i]
+      );
     }
 
     const mailMessage =
@@ -132,8 +123,10 @@ module.exports.sendEmail = async (email, message) => {
   };
 
   await transport.sendMail(mainOptions, function (err, success) {
-    if (err) console.log(err);
-    else console.log("*** New Email Was Send! ***");
+    if (err) {
+      console.log(err);
+      throw err;
+    } else console.log("*** New Email Was Send! ***");
     //res.send("Email was send");
   });
 };
@@ -145,9 +138,21 @@ const findUser = async (email) => {
     },
   }).catch((err) => {
     console.log(err);
-    return err;
+    throw err;
   });
   return user;
+};
+
+const addPartsForTransaction = async (transactionId, part) => {
+  let addedPart = await TransactionParts.create({
+    transactionId: transactionId,
+    partId: part.uuid,
+    partQuantity: part.quantity,
+  }).catch((err) => {
+    console.log(err);
+    throw err;
+  });
+  return addedPart;
 };
 
 const createTransaction = async (user, address, totalPrice) => {
@@ -156,10 +161,10 @@ const createTransaction = async (user, address, totalPrice) => {
     uuid: uuidv4(),
     userId: user[0].dataValues.uuid,
     addressForShipping: address,
-    totalPrice: Math.round(totalPrice),
+    totalPrice: totalPrice,
   }).catch((err) => {
     console.log(err);
-    return err;
+    throw err;
   });
   return transaction;
 };
@@ -171,7 +176,7 @@ const updatePart = async (part) => {
     { where: { uuid: id } }
   ).catch((err) => {
     console.log(err);
-    return err;
+    throw err;
   });
   return updatedPart;
 };
