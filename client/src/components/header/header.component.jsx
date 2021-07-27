@@ -21,7 +21,6 @@ const HeaderComponent = () => {
         url: "http://localhost:5000/api/logout",
         withCredentials: true,
       });
-      //console.log(response);
       alert(response.data);
       dispatch({ type: UserActions.SIGN_OUT });
     } catch (error) {

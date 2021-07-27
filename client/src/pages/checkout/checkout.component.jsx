@@ -21,8 +21,6 @@ const CheckoutPage = () => {
   };
 
   const handleCheckout = async () => {
-    //console.log(userState.currentUser.email);
-    //console.log(cartState.cartItems);
     try {
       const res = await axios({
         method: "post",
@@ -42,7 +40,6 @@ const CheckoutPage = () => {
       history.push("/");
     } catch (error) {
       console.log(error);
-      // console.log(error.response.data);
       alert(error.response.data.error);
     }
   };

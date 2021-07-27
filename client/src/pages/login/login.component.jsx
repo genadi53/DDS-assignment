@@ -15,11 +15,8 @@ const LogInComponent = () => {
     event.preventDefault();
     const { email, password } = userCredentials;
     const loggedUser = await login(email, password);
-    // const user = await getUser();
-    // console.log(user);
     dispatch({ type: UserActions.SIGN_IN, payload: loggedUser });
     history.push("/");
-    // console.log(userState);
   };
 
   const handleChange = (event) => {

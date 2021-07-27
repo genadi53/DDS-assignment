@@ -5,7 +5,6 @@ const User = require("../../models/User");
 const CartPart = require("../../models/CartPart");
 const sequelize = require("sequelize");
 const { v4: uuidv4 } = require("uuid");
-// const Transactions = require("../../models/Transaction");
 
 User.hasMany(Transaction, {
   as: "User_Transactions",
@@ -28,16 +27,11 @@ module.exports.makeNewTransaction = async (req, res) => {
   const { email, parts, address = "Sofia ..." } = req.body;
   let { totalPrice } = req.body;
   let message = "Transaction details\nProduct\t Quantity\t Price\n";
-  //console.log(parts);
   try {
     const user = await findUser(email);
-    //console.log(user);
-    // console.log(user[0].dataValues.uuid);
-
     const selledParts = [];
 
     for (const part of parts) {
-      //console.log(part.partId);
       let id = part.uuid;
       const p = await CartPart.findAll({ where: { uuid: id } }).catch((err) => {
         console.log(err);
@@ -51,19 +45,14 @@ module.exports.makeNewTransaction = async (req, res) => {
         );
       } else {
         message = message.concat(`${part.name} is out of stock\n`);
-        //console.log(totalPrice);
         totalPrice =
           Math.round((totalPrice - part.price * part.quantity) * 100) / 100;
-        //console.log(totalPrice);
       }
-      //console.log(p)
     }
 
     const transaction = await createTransaction(user, address, totalPrice);
-    //console.log(transaction.dataValues);
 
     for (let i = 0; i < selledParts.length; i++) {
-      //console.log(result[i][0].dataValues.uuid);
       let p = await addPartsForTransaction(
         transaction.dataValues.uuid,
         selledParts[i]
@@ -80,7 +69,6 @@ module.exports.makeNewTransaction = async (req, res) => {
       part = await updatePart(part);
     });
 
-    //console.log(message);
     this.sendEmail(user[0].dataValues.email, mailMessage);
     res.status(200).send("Transaction completed! Email with details was send!");
   } catch (error) {
@@ -90,7 +78,6 @@ module.exports.makeNewTransaction = async (req, res) => {
 };
 
 module.exports.sendEmail = async (email, message) => {
-  //console.log(message);
   // MailTrap
   const transport = nodemailer.createTransport({
     host: "smtp.mailtrap.io",
@@ -113,8 +100,6 @@ module.exports.sendEmail = async (email, message) => {
     },
   });
 
-  // console.log(mailMessage);
-
   const mainOptions = {
     from: "kotka5353@mail.com",
     to: email,
@@ -127,7 +112,6 @@ module.exports.sendEmail = async (email, message) => {
       console.log(err);
       throw err;
     } else console.log("*** New Email Was Send! ***");
-    //res.send("Email was send");
   });
 };
 

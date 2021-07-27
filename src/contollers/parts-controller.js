@@ -6,15 +6,11 @@ module.exports.getAllParts = async (req, res) => {
     console.log(err);
     res.status(500).json({ error: err });
   });
-  //console.log(parts.every((part) => part instanceof CartPart)); // true
-  //console.log("All parts:", JSON.stringify(parts, null, 2));
-  //console.log(parts);
   res.json(parts);
 };
 
 module.exports.createNewPart = async (req, res) => {
   const { name, brand, model, category, quantity, price } = req.body;
-  //console.log(name, brand, model, category, quantity, price);
   if (quantity < 0)
     res.status(400).json({ error: "Part quantity must be greater than 0!" });
   if (price < 0)
@@ -32,7 +28,6 @@ module.exports.createNewPart = async (req, res) => {
     console.log(err);
     res.status(500).json({ error: err });
   });
-  //console.log(part);
   res.status(200).send("Successfully created new part!");
 };
 
@@ -54,10 +49,8 @@ module.exports.findPart = async (req, res) => {
 
 module.exports.updatePart = async (req, res) => {
   const { name, brand, model, category, quantity, price } = req.body;
-  //console.log(name, brand, model, category, quantity, price);
-
   const { id } = req.params;
-  //console.log(id);
+
   if (quantity < 0)
     res.status(400).json({ error: "Part quantity must be greater than 0!" });
   if (price < 0)
@@ -69,7 +62,6 @@ module.exports.updatePart = async (req, res) => {
     console.log(err);
     res.status(500).json({ error: err });
   });
-  console.log(updatedPart);
   res.status(200).send("Part updated successfylly!");
 };
 
@@ -83,6 +75,5 @@ module.exports.deletePart = async (req, res) => {
     console.log(err);
     res.status(500).json({ error: err });
   });
-  //console.log(deletedPart);
   res.status(200).send("Part deleted successfylly!");
 };

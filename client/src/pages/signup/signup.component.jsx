@@ -24,7 +24,6 @@ const SignUpComponent = () => {
 
     await signup(userCredentials);
     history.push("/");
-    // SignUpComponentStart({ email, password, displayName });
   };
 
   const handleChange = (event) => {

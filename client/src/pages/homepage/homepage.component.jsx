@@ -12,7 +12,6 @@ const HomePage = () => {
       url: "http://localhost:5000/api/parts",
     })
       .then((res) => {
-        //console.log(res);
         if (isMounted.current) {
           setParts(res.data);
         }

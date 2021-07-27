@@ -17,9 +17,6 @@ const UpdatePartForm = () => {
   });
 
   useEffect(() => {
-    //console.log(partData.uuid);
-    //console.log(params);
-    //console.log(history);
     fetchPartData();
   }, []);
 
@@ -30,8 +27,6 @@ const UpdatePartForm = () => {
       url: `http://localhost:5000/api/parts/${params.uuid}`,
     })
       .then((res) => {
-        //console.log(res);
-        //console.log(res.data);
         setPartData(res.data[0]);
       })
       .catch((err) => console.log(err));
@@ -58,7 +53,6 @@ const UpdatePartForm = () => {
       history.push("/");
     } catch (error) {
       console.log(error);
-      // console.log(error.response.data);
       alert(error.response.data.error);
     }
   };

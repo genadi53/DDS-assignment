@@ -12,27 +12,23 @@ const PartComponent = ({ part }) => {
 
   let history = useHistory();
 
-  const handleDelete = () => {
-    //console.log("dele");
-    axios({
-      method: "delete",
-      withCredentials: true,
-      url: `http://localhost:5000/api/parts/${part.uuid}`,
-    })
-      .then((res) => {
-        //console.log(res);
-        //console.log(res.data);
-        alert(res.data);
-        history.push("/");
-      })
-      .catch((err) => console.log(err));
+  const handleDelete = async () => {
+    try {
+      const res = await axios({
+        method: "delete",
+        withCredentials: true,
+        url: `http://localhost:5000/api/parts/${part.uuid}`,
+      });
+      alert(res.data);
+      history.push("/");
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const addToCart = () => {
-    //console.log(part.quantity);
     const item = cartState.cartItems.find((item) => item.uuid === part.uuid);
     let partToAdd = null;
-    //console.log(item);
     if (!item) {
       partToAdd = { uuid: part.uuid, name: part.name, quantity: 1, price };
       dispatch({ type: CartActions.ADD_ITEM, payload: partToAdd, price });
@@ -45,7 +41,6 @@ const PartComponent = ({ part }) => {
       };
       dispatch({ type: CartActions.ADD_ITEM, payload: partToAdd });
     }
-    //console.log(cartState);
   };
 
   return (

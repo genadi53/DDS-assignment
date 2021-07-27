@@ -8,7 +8,6 @@ export const initialState = {
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
     case UserActions.SIGN_IN:
-      // console.log(action.payload);
       return {
         ...state,
         currentUser: action.payload,

@@ -46,7 +46,6 @@ passport.use(
           email: email,
         },
       });
-      //console.log(user);
       if (user == null) {
         return done(null, false, { message: "Incorrect email." });
       }
@@ -54,8 +53,6 @@ passport.use(
         password,
         user.dataValues.password
       );
-      //console.log(password, user.dataValues.password);
-      //console.log(isPassValid);
       if (!isPassValid) {
         return done(null, false, { message: "Incorrect password." });
       }
@@ -80,11 +77,6 @@ passport.deserializeUser(function (user, done) {
     email: user.email,
     isAdmin: user.isAdmin,
   });
-  //   passport.deserializeUser(function(id, done) {
-  //     User.findById(id, function(err, user) {
-  //         done(err, user);
-  //     });
-  // });
 });
 
 // const seed = require("../src/seeds/seeds");
