@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router";
-import axios from "axios";
 import FormInput from "../../components/form-input/form-input.component";
+import { signup } from "../../utils/user-funcs";
 
 const SignUpComponent = () => {
   const [userCredentials, setUserCredentials] = useState({
@@ -12,26 +12,6 @@ const SignUpComponent = () => {
     confirmPassword: "",
   });
   const history = useHistory();
-
-  const signup = async (userData) => {
-    try {
-      const res = await axios({
-        method: "post",
-        data: {
-          firstName: userData.firstName,
-          lastName: userData.lastName,
-          email: userData.email,
-          password: userData.password,
-        },
-        withCredentials: true,
-        url: "http://localhost:5000/api/signup",
-      });
-      alert(res.data);
-    } catch (error) {
-      console.log(error);
-      alert(error.response.data.error);
-    }
-  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();

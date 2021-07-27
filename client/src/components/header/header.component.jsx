@@ -15,17 +15,19 @@ const HeaderComponent = () => {
 
   const handleLogout = async (e) => {
     e.preventDefault();
-    let response = await axios({
-      method: "get",
-      url: "http://localhost:5000/api/logout",
-      withCredentials: true,
-    }).catch((err) => {
+    try {
+      const response = await axios({
+        method: "get",
+        url: "http://localhost:5000/api/logout",
+        withCredentials: true,
+      });
+      //console.log(response);
+      alert(response.data);
+      dispatch({ type: UserActions.SIGN_OUT });
+    } catch (error) {
       alert("Error");
-      console.log(err);
-    });
-    //console.log(response);
-    alert(response.data);
-    dispatch({ type: UserActions.SIGN_OUT });
+      console.log(error);
+    }
   };
 
   return (

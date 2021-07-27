@@ -1,45 +1,9 @@
 import React, { useState, useContext } from "react";
 import { useHistory } from "react-router";
-import axios from "axios";
 import FormInput from "../../components/form-input/form-input.component";
 import userContext from "../../context/user.context";
 import UserActions from "../../reducers/user/user.actions";
-
-const getUser = async () => {
-  let response = await axios({
-    method: "get",
-    url: "http://localhost:5000/api/user",
-    withCredentials: true,
-  }).catch((err) => {
-    alert("Error");
-    console.log(err);
-  });
-
-  //console.log(response);
-  return response;
-};
-
-const login = async (email, password) => {
-  //console.log(email, password);
-  try {
-    let response = await axios({
-      method: "post",
-      data: {
-        email,
-        password,
-      },
-      withCredentials: true,
-      url: "http://localhost:5000/api/login",
-    });
-    //console.log(response);
-    if (response) alert(response.data.status);
-    return response ? response.data.user : null;
-  } catch (error) {
-    console.log(error);
-    // console.log(error.response.data);
-    alert(error.response.data.error);
-  }
-};
+import { login } from "../../utils/user-funcs";
 
 const LogInComponent = () => {
   const initialState = { email: "", password: "" };
