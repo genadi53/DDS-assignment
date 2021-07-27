@@ -32,7 +32,7 @@ const CreatePartForm = () => {
       url: `http://localhost:5000/api/parts/`,
     })
       .then((res) => {
-        console.log(res);
+        //console.log(res);
         alert(res.data);
         history.push("/");
       })
@@ -104,7 +104,13 @@ const CreatePartForm = () => {
           required
         />
 
-        <button type="submit"> CREATE PART </button>
+        <button
+          type="submit"
+          className={"btn btn-primary col-lg-3 mx-auto mt-2"}
+        >
+          {" "}
+          CREATE PART{" "}
+        </button>
       </form>
     </div>
   );

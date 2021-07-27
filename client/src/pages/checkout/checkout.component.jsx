@@ -39,7 +39,7 @@ const CheckoutPage = () => {
       console.log(err);
     });
     if (res) {
-      console.log(res);
+      //console.log(res);
       alert(res.data);
       dispatch({
         type: CartActions.CLEAR_CART,

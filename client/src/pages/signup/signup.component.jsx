@@ -26,8 +26,8 @@ const SignUpComponent = () => {
       url: "http://localhost:5000/api/signup",
     })
       .then((res) => {
-        console.log(res);
-        console.log(res.data);
+        // console.log(res);
+        // console.log(res.data);
         alert(res.data);
       })
       .catch((err) => console.log(err));
@@ -102,7 +102,13 @@ const SignUpComponent = () => {
           required
         />
 
-        <button type="submit"> SIGN UP </button>
+        <button
+          type="submit"
+          className={"btn btn-primary col-lg-3 mx-auto mt-2"}
+        >
+          {" "}
+          SIGN UP{" "}
+        </button>
       </form>
     </div>
   );

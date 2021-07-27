@@ -126,7 +126,13 @@ const UpdatePartForm = () => {
           required
         />
 
-        <button type="submit"> UPDATE </button>
+        <button
+          type="submit"
+          className={"btn btn-primary col-lg-3 mx-auto mt-2"}
+        >
+          {" "}
+          UPDATE{" "}
+        </button>
       </form>
     </div>
   );

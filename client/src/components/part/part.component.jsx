@@ -20,7 +20,7 @@ const PartComponent = ({ part }) => {
       url: `http://localhost:5000/api/parts/${part.uuid}`,
     })
       .then((res) => {
-        console.log(res);
+        //console.log(res);
         //console.log(res.data);
         alert(res.data);
         history.push("/");

@@ -83,7 +83,12 @@ const LogInComponent = () => {
           required
         />
 
-        <button type="submit">LOG IN</button>
+        <button
+          type="submit"
+          className={"btn btn-primary col-lg-3 mx-auto mt-2"}
+        >
+          LOG IN
+        </button>
       </form>
     </div>
   );

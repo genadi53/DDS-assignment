@@ -77,8 +77,8 @@ module.exports.loginUser = async (req, res, next) => {
 };
 
 module.exports.logoutUser = async (req, res) => {
-  console.log("before logging out");
+  //console.log("before logging out");
   req.logout();
-  console.log("before sending");
+  //console.log("before sending");
   res.status(200).send("Successfully logged out!");
 };
