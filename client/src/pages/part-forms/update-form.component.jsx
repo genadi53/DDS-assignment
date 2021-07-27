@@ -39,26 +39,28 @@ const UpdatePartForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    axios({
-      method: "put",
-      withCredentials: true,
-      data: {
-        name: partData.name,
-        brand: partData.brand,
-        model: partData.model,
-        category: partData.category,
-        quantity: partData.quantity,
-        price: partData.price,
-      },
-      url: `http://localhost:5000/api/parts/${partData.uuid}`,
-    })
-      .then((res) => {
-        //console.log(res);
-        alert(res.data);
-        history.push("/");
-        // return <Redirect to="/login" />;
-      })
-      .catch((err) => console.log(err));
+    try {
+      const res = await axios({
+        method: "put",
+        withCredentials: true,
+        data: {
+          name: partData.name,
+          brand: partData.brand,
+          model: partData.model,
+          category: partData.category,
+          quantity: partData.quantity,
+          price: partData.price,
+        },
+        url: `http://localhost:5000/api/parts/${partData.uuid}`,
+      });
+      console.log(res);
+      alert(res.data);
+      history.push("/");
+    } catch (error) {
+      console.log(error);
+      // console.log(error.response.data);
+      alert(error.response.data.error);
+    }
   };
 
   const handleChange = (event) => {

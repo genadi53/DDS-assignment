@@ -18,25 +18,26 @@ const CreatePartForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    axios({
-      method: "post",
-      withCredentials: true,
-      data: {
-        name: partData.name,
-        brand: partData.brand,
-        model: partData.model,
-        category: partData.category,
-        quantity: partData.quantity,
-        price: partData.price,
-      },
-      url: `http://localhost:5000/api/parts/`,
-    })
-      .then((res) => {
-        //console.log(res);
-        alert(res.data);
-        history.push("/");
-      })
-      .catch((err) => console.log(err));
+    try {
+      const res = await axios({
+        method: "post",
+        withCredentials: true,
+        data: {
+          name: partData.name,
+          brand: partData.brand,
+          model: partData.model,
+          category: partData.category,
+          quantity: partData.quantity,
+          price: partData.price,
+        },
+        url: `http://localhost:5000/api/parts/`,
+      });
+      alert(res.data);
+      history.push("/");
+    } catch (error) {
+      console.log(error);
+      alert(error.response.data.error);
+    }
   };
 
   const handleChange = (event) => {

@@ -13,24 +13,24 @@ const SignUpComponent = () => {
   });
   const history = useHistory();
 
-  const signup = (userData) => {
-    axios({
-      method: "post",
-      data: {
-        firstName: userData.firstName,
-        lastName: userData.lastName,
-        email: userData.email,
-        password: userData.password,
-      },
-      withCredentials: true,
-      url: "http://localhost:5000/api/signup",
-    })
-      .then((res) => {
-        // console.log(res);
-        // console.log(res.data);
-        alert(res.data);
-      })
-      .catch((err) => console.log(err));
+  const signup = async (userData) => {
+    try {
+      const res = await axios({
+        method: "post",
+        data: {
+          firstName: userData.firstName,
+          lastName: userData.lastName,
+          email: userData.email,
+          password: userData.password,
+        },
+        withCredentials: true,
+        url: "http://localhost:5000/api/signup",
+      });
+      alert(res.data);
+    } catch (error) {
+      console.log(error);
+      alert(error.response.data.error);
+    }
   };
 
   const handleSubmit = async (event) => {
@@ -42,7 +42,7 @@ const SignUpComponent = () => {
       return;
     }
 
-    signup(userCredentials);
+    await signup(userCredentials);
     history.push("/");
     // SignUpComponentStart({ email, password, displayName });
   };

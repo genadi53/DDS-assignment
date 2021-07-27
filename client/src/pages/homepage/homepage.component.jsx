@@ -17,7 +17,10 @@ const HomePage = () => {
           setParts(res.data);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        alert("Error!");
+      });
     return () => (isMounted.current = false);
   }, [parts]);
 

@@ -43,7 +43,7 @@ module.exports.loginUser = async (req, res, next) => {
     }
     if (!user) {
       //return res.json({ status: "error", message: info.message });
-      res.status(404).send("ERROR! No such user!");
+      res.status(404).json({ error: "ERROR! No such user!" });
     }
     req.logIn(user, function (err) {
       if (err) {

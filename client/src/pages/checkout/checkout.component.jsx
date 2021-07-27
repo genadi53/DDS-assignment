@@ -23,28 +23,27 @@ const CheckoutPage = () => {
   const handleCheckout = async () => {
     //console.log(userState.currentUser.email);
     //console.log(cartState.cartItems);
-
-    const res = await axios({
-      method: "post",
-      url: "http://localhost:5000/api/transaction",
-      data: {
-        email: userState.currentUser.email,
-        parts: cartState.cartItems,
-        address: "Sofia",
-        totalPrice: totalPrice,
-      },
-      withCredentials: true,
-    }).catch((err) => {
-      alert("Error");
-      console.log(err);
-    });
-    if (res) {
-      //console.log(res);
+    try {
+      const res = await axios({
+        method: "post",
+        url: "http://localhost:5000/api/transaction",
+        data: {
+          email: userState.currentUser.email,
+          parts: cartState.cartItems,
+          address: "Sofia",
+          totalPrice: totalPrice,
+        },
+        withCredentials: true,
+      });
       alert(res.data);
       dispatch({
         type: CartActions.CLEAR_CART,
       });
       history.push("/");
+    } catch (error) {
+      console.log(error);
+      // console.log(error.response.data);
+      alert(error.response.data.error);
     }
   };
 

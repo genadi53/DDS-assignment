@@ -15,6 +15,10 @@ module.exports.getAllParts = async (req, res) => {
 module.exports.createNewPart = async (req, res) => {
   const { name, brand, model, category, quantity, price } = req.body;
   //console.log(name, brand, model, category, quantity, price);
+  if (quantity < 0)
+    res.status(400).json({ error: "Part quantity must be greater than 0!" });
+  if (price < 0)
+    res.status(400).json({ error: "Part price must be greater than 0!" });
   let uuid = uuidv4();
   const part = await CartPart.create({
     uuid,
@@ -54,6 +58,10 @@ module.exports.updatePart = async (req, res) => {
 
   const { id } = req.params;
   //console.log(id);
+  if (quantity < 0)
+    res.status(400).json({ error: "Part quantity must be greater than 0!" });
+  if (price < 0)
+    res.status(400).json({ error: "Part price must be greater than 0!" });
   const updatedPart = await CartPart.update(
     { name, brand, model, category, quantity, price },
     { where: { uuid: id } }
@@ -61,7 +69,7 @@ module.exports.updatePart = async (req, res) => {
     console.log(err);
     res.status(500).json({ error: err });
   });
-  //console.log(updatedPart);
+  console.log(updatedPart);
   res.status(200).send("Part updated successfylly!");
 };
 
