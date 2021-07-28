@@ -21,7 +21,7 @@ const HomePage = () => {
         alert("Error!");
       });
     return () => (isMounted.current = false);
-  }, [parts]);
+  }, []);
 
   return (
     <div className="row">

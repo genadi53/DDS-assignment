@@ -10,12 +10,12 @@ const LogInComponent = () => {
   const [userCredentials, setUserCredentials] = useState(initialState);
   const history = useHistory();
 
-  const { dispatch } = useContext(userContext);
+  const { userDispatch } = useContext(userContext);
   const handleSubmit = async (event) => {
     event.preventDefault();
     const { email, password } = userCredentials;
     const loggedUser = await login(email, password);
-    dispatch({ type: UserActions.SIGN_IN, payload: loggedUser });
+    userDispatch({ type: UserActions.SIGN_IN, payload: loggedUser });
     history.push("/");
   };
 

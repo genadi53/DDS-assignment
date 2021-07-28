@@ -16,8 +16,8 @@ const App = () => {
 
   return (
     <div className="App">
-      <userContext.Provider value={{ userState, dispatch: userDispatch }}>
-        <cartContext.Provider value={{ cartState, dispatch: cartDispatch }}>
+      <userContext.Provider value={{ userState, userDispatch }}>
+        <cartContext.Provider value={{ cartState, cartDispatch }}>
           <Header />
         </cartContext.Provider>
       </userContext.Provider>

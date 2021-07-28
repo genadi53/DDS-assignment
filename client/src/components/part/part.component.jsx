@@ -7,7 +7,7 @@ import userContext from "../../context/user.context";
 
 const PartComponent = ({ part }) => {
   const { name, brand, model, category, price, quantity } = part;
-  const { cartState, dispatch } = useContext(cartContext);
+  const { cartState, cartDispatch } = useContext(cartContext);
   const { userState } = useContext(userContext);
 
   let history = useHistory();
@@ -31,7 +31,7 @@ const PartComponent = ({ part }) => {
     let partToAdd = null;
     if (!item) {
       partToAdd = { uuid: part.uuid, name: part.name, quantity: 1, price };
-      dispatch({ type: CartActions.ADD_ITEM, payload: partToAdd, price });
+      cartDispatch({ type: CartActions.ADD_ITEM, payload: partToAdd, price });
     } else {
       partToAdd = {
         uuid: part.uuid,
@@ -39,7 +39,7 @@ const PartComponent = ({ part }) => {
         quantity: item.quantity + 1,
         price,
       };
-      dispatch({ type: CartActions.ADD_ITEM, payload: partToAdd });
+      cartDispatch({ type: CartActions.ADD_ITEM, payload: partToAdd });
     }
   };
 

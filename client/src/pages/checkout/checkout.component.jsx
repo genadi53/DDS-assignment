@@ -7,7 +7,7 @@ import CartActions from "../../reducers/cart/cart.actions";
 import userContext from "../../context/user.context";
 
 const CheckoutPage = () => {
-  const { cartState, dispatch } = useContext(cartContext);
+  const { cartState, cartDispatch } = useContext(cartContext);
   const { userState } = useContext(userContext);
   const history = useHistory();
   let totalPrice = 0;
@@ -34,7 +34,7 @@ const CheckoutPage = () => {
         withCredentials: true,
       });
       alert(res.data);
-      dispatch({
+      cartDispatch({
         type: CartActions.CLEAR_CART,
       });
       history.push("/");
@@ -53,7 +53,7 @@ const CheckoutPage = () => {
         quantity: 1,
         price: part.price,
       };
-      dispatch({
+      cartDispatch({
         type: CartActions.ADD_ITEM,
         payload: partToAdd,
       });
@@ -62,7 +62,7 @@ const CheckoutPage = () => {
         ...partToAdd,
         quantity: partToAdd.quantity + 1,
       };
-      dispatch({ type: CartActions.ADD_ITEM, payload: partToAdd });
+      cartDispatch({ type: CartActions.ADD_ITEM, payload: partToAdd });
     }
   };
 
@@ -77,7 +77,7 @@ const CheckoutPage = () => {
         ...partToRemove,
         quantity: partToRemove.quantity - 1,
       };
-      dispatch({ type: CartActions.REMOVE_ITEM, payload: partToRemove });
+      cartDispatch({ type: CartActions.REMOVE_ITEM, payload: partToRemove });
     }
   };
 

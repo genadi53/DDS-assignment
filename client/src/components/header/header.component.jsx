@@ -9,9 +9,12 @@ import CreateForm from "../../pages/part-forms/create-form.componemnt";
 import CheckoutPage from "../../pages/checkout/checkout.component";
 import userContext from "../../context/user.context";
 import UserActions from "../../reducers/user/user.actions";
+import cartContext from "../../context/cart.context";
+import CartActions from "../../reducers/cart/cart.actions";
 
 const HeaderComponent = () => {
-  const { userState, dispatch } = useContext(userContext);
+  const { userState, userDispatch } = useContext(userContext);
+  const { cartDispatch } = useContext(cartContext);
 
   const handleLogout = async (e) => {
     e.preventDefault();
@@ -22,7 +25,8 @@ const HeaderComponent = () => {
         withCredentials: true,
       });
       alert(response.data);
-      dispatch({ type: UserActions.SIGN_OUT });
+      userDispatch({ type: UserActions.SIGN_OUT });
+      cartDispatch({ type: CartActions.CLEAR_CART });
     } catch (error) {
       alert("Error");
       console.log(error);
