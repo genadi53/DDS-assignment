@@ -63,7 +63,7 @@ module.exports.makeNewTransaction = async (req, res) => {
       transaction === null
         ? "No Transaction was made\n"
         : `Transaction address is ${address} 
-  and you need to pay ${totalPrice}\n`.concat(message);
+  and you need to pay $${totalPrice}\n`.concat(message);
 
     selledParts.forEach(async (part) => {
       part = await updatePart(part);
@@ -89,7 +89,7 @@ module.exports.sendEmail = async (email, message) => {
   });
 
   // Gmail
-  const transporter = nodemailer.createTransport({
+  const gmailTransport = nodemailer.createTransport({
     service: "gmail",
     auth: {
       user: "kotka5353@gmail.com",
@@ -107,7 +107,7 @@ module.exports.sendEmail = async (email, message) => {
     text: message,
   };
 
-  await transport.sendMail(mainOptions, function (err, success) {
+  await gmailTransport.sendMail(mainOptions, function (err, success) {
     if (err) {
       console.log(err);
       throw err;
