@@ -4,35 +4,47 @@ const localStrategy = require("passport-local").Strategy;
 
 module.exports = function (passport) {
   passport.use(
-    new localStrategy((email, password, done) => {
-      User.findOne({ where: { email } }, (err, user) => {
-        if (err) throw err;
-        if (!user) return done(null, false);
-        bcrypt.compare(password, user[0].dataValues.password, (err, result) => {
-          if (err) throw err;
-          if (result === true) {
-            return done(null, user);
-          } else {
-            return done(null, false);
-          }
+    new localStrategy(
+      {
+        usernameField: "email",
+        passwordField: "password",
+      },
+      async function (email, password, done) {
+        var user = await User.findOne({
+          where: {
+            email: email,
+          },
         });
-      });
-    })
+        if (user == null) {
+          return done(null, false, { message: "Incorrect email." });
+        }
+        const isPassValid = await bcrypt.compare(
+          password,
+          user.dataValues.password
+        );
+        if (!isPassValid) {
+          return done(null, false, { message: "Incorrect password." });
+        }
+        return done(null, user);
+      }
+    )
   );
-
-  passport.serializeUser((user, cb) => {
-    cb(null, user[0].dataValues.uuid);
+  passport.serializeUser(function (user, done) {
+    done(null, {
+      uuid: user.uuid,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      isAdmin: user.isAdmin,
+    });
   });
-
-  passport.deserializeUser((uuid, cb) => {
-    User.findOne({ where: { uuid } }, (err, user) => {
-      const userInformation = {
-        firstName: user[0].dataValues.firstName,
-        lastName: user[0].dataValues.lastName,
-        email: user[0].dataValues.email,
-        isAdmin: user[0].dataValues.isAdmin,
-      };
-      cb(err, userInformation);
+  passport.deserializeUser(function (user, done) {
+    done(null, {
+      uuid: user.uuid,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      isAdmin: user.isAdmin,
     });
   });
 };

@@ -84,6 +84,7 @@ const HeaderComponent = () => {
                       className="nav-link"
                       style={{ cursor: "pointer" }}
                       href="/#"
+                      onClick={(e) => handleLogout(e)}
                     >
                       LOGOUT
                     </a>
